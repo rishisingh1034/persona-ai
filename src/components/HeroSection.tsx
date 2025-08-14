@@ -6,15 +6,18 @@ import { cn } from '@/lib/utils';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { 
-  BotIcon, 
-  SparklesIcon, 
-  ArrowRightIcon, 
-  CodeIcon, 
+import {
+  BotIcon,
+  SparklesIcon,
+  ArrowRightIcon,
+  CodeIcon,
   MessageCircleIcon,
   GraduationCapIcon,
   HeartIcon,
-  StarIcon
+  StarIcon,
+  GithubIcon,
+  LinkedinIcon,
+  TwitterIcon
 } from 'lucide-react';
 
 interface HeroSectionProps {
@@ -27,18 +30,48 @@ export default function HeroSection({ onSelectPersona }: HeroSectionProps) {
       {/* Header */}
       <div className="border-b border-border bg-card/30 backdrop-blur-sm">
         <div className="max-w-6xl mx-auto px-6 py-4">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
-              <BotIcon className="w-5 h-5 text-white" />
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
+                <BotIcon className="w-5 h-5 text-white" />
+              </div>
+              <div>
+                <h1 className="text-xl font-bold text-foreground flex items-center gap-2">
+                  AI Coding Mentors
+                  <SparklesIcon className="w-4 h-4 text-primary" />
+                </h1>
+                <p className="text-sm text-muted-foreground">
+                  Learn coding with India's top educators
+                </p>
+              </div>
             </div>
-            <div>
-              <h1 className="text-xl font-bold text-foreground flex items-center gap-2">
-                AI Coding Mentors
-                <SparklesIcon className="w-4 h-4 text-primary" />
-              </h1>
-              <p className="text-sm text-muted-foreground">
-                Learn coding with India's top educators
-              </p>
+
+            {/* Social Links */}
+            <div className="flex items-center gap-2">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-9 w-9 p-0 hover:bg-muted"
+                onClick={() => window.open('https://github.com/rishisingh1034', '_blank')}
+              >
+                <GithubIcon className="w-4 h-4" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-9 w-9 p-0 hover:bg-muted"
+                onClick={() => window.open('https://linkedin.com/in/rishisingh1034', '_blank')}
+              >
+                <LinkedinIcon className="w-4 h-4" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-9 w-9 p-0 hover:bg-muted"
+                onClick={() => window.open('https://x.com/rishisingh1034', '_blank')}
+              >
+                <TwitterIcon className="w-4 h-4" />
+              </Button>
             </div>
           </div>
         </div>
@@ -54,14 +87,14 @@ export default function HeroSection({ onSelectPersona }: HeroSectionProps) {
               Powered by AI
             </Badge>
           </div>
-          
+
           <h1 className="text-3xl md:text-5xl font-bold text-foreground mb-4 leading-tight">
             Learn Coding with Your
             <span className="bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">
               {' '}Favorite Mentors
             </span>
           </h1>
-          
+
           <p className="text-lg text-muted-foreground mb-6 max-w-2xl mx-auto leading-relaxed">
             Get personalized coding guidance from AI versions of Hitesh Choudhary and Piyush Garg in Hindi, Hinglish, or English.
           </p>
@@ -90,7 +123,7 @@ export default function HeroSection({ onSelectPersona }: HeroSectionProps) {
         {/* Mentor Selection Cards */}
         <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
           {Object.values(personas).map((persona) => (
-            <Card 
+            <Card
               key={persona.id}
               className="group relative overflow-hidden border-2 hover:border-primary/50 transition-all duration-300 hover:shadow-xl hover:shadow-primary/10 cursor-pointer bg-card/50 backdrop-blur-sm"
               onClick={() => onSelectPersona(persona.id)}
@@ -100,13 +133,13 @@ export default function HeroSection({ onSelectPersona }: HeroSectionProps) {
                 "absolute inset-0 opacity-5 group-hover:opacity-10 transition-opacity",
                 persona.color.replace('bg-', 'bg-gradient-to-br from-') + ' to-transparent'
               )} />
-              
+
               <div className="relative p-6">
                 {/* Header */}
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-3">
-                    <img 
-                      src={persona.avatar} 
+                    <img
+                      src={persona.avatar}
                       alt={persona.name}
                       className="w-12 h-12 rounded-xl shadow-lg group-hover:scale-110 transition-transform object-cover"
                     />
@@ -151,7 +184,7 @@ export default function HeroSection({ onSelectPersona }: HeroSectionProps) {
                 </div>
 
                 {/* CTA Button */}
-                <Button 
+                <Button
                   className="w-full group-hover:shadow-lg transition-all duration-300"
                   size="default"
                 >
