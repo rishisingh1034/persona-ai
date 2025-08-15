@@ -3,14 +3,17 @@
 import { useState, useRef, KeyboardEvent } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { SendIcon, MicIcon, PlusIcon, StopCircleIcon } from 'lucide-react';
+import { SendIcon, MicIcon, PlusIcon, StopCircleIcon, VolumeXIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useTTS } from '@/hooks/useTTS';
+import { Persona } from '@/types/chat';
 
 interface ModernChatInputProps {
   onSendMessage: (message: string) => void;
   isLoading?: boolean;
   placeholder?: string;
   onStop?: () => void;
+  persona?: Persona;
 }
 
 export default function ModernChatInput({
@@ -18,9 +21,16 @@ export default function ModernChatInput({
   isLoading = false,
   placeholder = "Ask your coding question...",
   onStop,
+  persona = 'hitesh',
 }: ModernChatInputProps) {
   const [message, setMessage] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
+  
+  // TTS hook for voice functionality
+  const { speak, isPlaying: isSpeaking, isLoading: isGeneratingVoice } = useTTS({
+    autoPlay: true,
+    fallbackEnabled: true
+  });
 
   const handleSubmit = () => {
     if (message.trim() && !isLoading) {
@@ -39,6 +49,14 @@ export default function ModernChatInput({
 
   const handleVoiceInput = () => {
     console.log('Voice input not implemented yet');
+  };
+
+  // Handle speaker button click for voice demo
+  const handleSpeakerDemo = async () => {
+    if (persona === 'hitesh') {
+      const demoMessage = "Hello! I'm Hitesh. Click on any of my responses to hear them in my voice. Let's start coding together!";
+      await speak(demoMessage, 'hitesh');
+    }
   };
 
   const handleStop = () => {
@@ -126,6 +144,31 @@ export default function ModernChatInput({
           </div>
         </div>
         
+        {/* Voice Demo Message - Only for Hitesh */}
+        {persona === 'hitesh' && (
+          <div className="mt-2 px-4">
+            <div className="flex items-center gap-2 text-xs text-muted-foreground bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800 rounded-lg p-2">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={handleSpeakerDemo}
+                disabled={isGeneratingVoice || isSpeaking}
+                className="h-5 w-5 hover:bg-blue-100 dark:hover:bg-blue-900/30 rounded-full flex-shrink-0"
+                title="Hear Hitesh's voice"
+              >
+                {isGeneratingVoice || isSpeaking ? (
+                  <div className="h-3 w-3 border border-blue-500 border-t-transparent rounded-full animate-spin" />
+                ) : (
+                  <VolumeXIcon className="h-3 w-3 text-blue-600 dark:text-blue-400" />
+                )}
+              </Button>
+              <span className="text-blue-700 dark:text-blue-300">
+                {isGeneratingVoice ? 'Generating voice...' : isSpeaking ? 'Playing voice...' : 'Click 🔊 to hear Hitesh\'s voice! You can also click on any response to hear it.'}
+              </span>
+            </div>
+          </div>
+        )}
+
         {/* Footer Info */}
         <div className="flex justify-between items-center mt-3 px-4">
           <div className="flex items-center gap-4 text-xs text-muted-foreground">

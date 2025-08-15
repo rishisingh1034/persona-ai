@@ -257,6 +257,7 @@ export default function ModernChatInterface({
           isLoading={isLoading}
           onStop={handleStop}
           placeholder={`Ask ${selectedPersona === 'hitesh' ? 'Hitesh' : 'Piyush'} your coding question...`}
+          persona={selectedPersona}
         />
       </div>
 

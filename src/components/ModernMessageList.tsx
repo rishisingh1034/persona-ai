@@ -10,6 +10,7 @@ import { ClipboardIcon, CheckIcon, UserIcon, BotIcon } from 'lucide-react';
 import { useState } from 'react';
 import { Conversation, ConversationContent, ConversationScrollButton } from '@/components/ai-elements/conversation';
 import TypingIndicator from './TypingIndicator';
+import AudioPlayer from './AudioPlayer';
 import Image from 'next/image';
 
 interface ModernMessageListProps {
@@ -173,15 +174,30 @@ function MessageBubble({ message, isStreaming = false, streamingContent = '', cu
           </ReactMarkdown>
         </div>
 
-        {/* Timestamp */}
+        {/* Audio Player and Timestamp */}
         <div className={cn(
-          "text-xs mt-2 opacity-70",
+          "flex items-center justify-between mt-2",
           isUser ? "text-primary-foreground" : "text-muted-foreground"
         )}>
-          {message.timestamp.toLocaleTimeString([], {
-            hour: '2-digit',
-            minute: '2-digit'
-          })}
+          {/* Audio Player for AI messages */}
+          {!isUser && !isStreaming && (
+            <AudioPlayer 
+              text={message.content}
+              persona={message.persona || currentPersona || 'hitesh'}
+              className="opacity-70 hover:opacity-100 transition-opacity"
+            />
+          )}
+          
+          {/* Timestamp */}
+          <div className={cn(
+            "text-xs opacity-70",
+            !isUser && !isStreaming ? "ml-auto" : ""
+          )}>
+            {message.timestamp.toLocaleTimeString([], {
+              hour: '2-digit',
+              minute: '2-digit'
+            })}
+          </div>
         </div>
       </div>
 
