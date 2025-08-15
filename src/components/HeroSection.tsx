@@ -140,6 +140,8 @@ export default function HeroSection({ onSelectPersona }: HeroSectionProps) {
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-3">
                     <Image
+                      width={32}
+                      height={32}
                       src={persona.avatar}
                       alt={persona.name}
                       className="w-12 h-12 rounded-xl shadow-lg group-hover:scale-110 transition-transform object-cover"

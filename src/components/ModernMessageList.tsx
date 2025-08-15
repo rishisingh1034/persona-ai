@@ -1,6 +1,6 @@
 'use client';
 
-import { Message } from '@/types/chat';
+import { Message, Persona } from '@/types/chat';
 import { personas } from '@/lib/personas';
 import { cn } from '@/lib/utils';
 import ReactMarkdown from 'react-markdown';
@@ -10,11 +10,13 @@ import { ClipboardIcon, CheckIcon, UserIcon, BotIcon } from 'lucide-react';
 import { useState } from 'react';
 import { Conversation, ConversationContent, ConversationScrollButton } from '@/components/ai-elements/conversation';
 import TypingIndicator from './TypingIndicator';
+import Image from 'next/image';
 
 interface ModernMessageListProps {
   messages: Message[];
   isLoading?: boolean;
   streamingMessage?: string;
+  currentPersona?: Persona;
 }
 
 interface CodeBlockProps {
@@ -74,13 +76,14 @@ function CodeBlock({ children, className }: CodeBlockProps) {
   );
 }
 
-function MessageBubble({ message, isStreaming = false, streamingContent = '' }: {
+function MessageBubble({ message, isStreaming = false, streamingContent = '', currentPersona }: {
   message: Message;
   isStreaming?: boolean;
   streamingContent?: string;
+  currentPersona?: Persona;
 }) {
   const isUser = message.role === 'user';
-  const persona = message.persona ? personas[message.persona] : null;
+  const persona = message.persona ? personas[message.persona] : (currentPersona ? personas[currentPersona] : null);
 
   return (
     <div className={cn(
@@ -91,9 +94,11 @@ function MessageBubble({ message, isStreaming = false, streamingContent = '' }: 
       {!isUser && (
         <div className="flex-shrink-0 animate-bounceIn">
           {persona?.avatar ? (
-            <img
+            <Image
               src={persona.avatar}
               alt={persona.displayName || 'AI'}
+              width={32}
+              height={32}
               className="w-8 h-8 rounded-full shadow-sm object-cover flex-shrink-0 transition-transform duration-200 hover:scale-110"
             />
           ) : (
@@ -185,6 +190,7 @@ export default function ModernMessageList({
   messages,
   isLoading = false,
   streamingMessage = '',
+  currentPersona,
 }: ModernMessageListProps) {
   return (
     <Conversation className="flex-1">
@@ -207,7 +213,7 @@ export default function ModernMessageList({
 
         {/* Messages */}
         {messages.map((message) => (
-          <MessageBubble key={message.id} message={message} />
+          <MessageBubble key={message.id} message={message} currentPersona={currentPersona} />
         ))}
 
         {/* Streaming Message */}
@@ -218,10 +224,11 @@ export default function ModernMessageList({
               content: streamingMessage,
               role: 'assistant',
               timestamp: new Date(),
-              persona: messages[messages.length - 1]?.persona || 'hitesh'
+              persona: messages[messages.length - 1]?.persona || currentPersona || 'hitesh'
             }}
             isStreaming={true}
             streamingContent={streamingMessage}
+            currentPersona={currentPersona}
           />
         )}
 

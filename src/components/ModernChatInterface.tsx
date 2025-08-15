@@ -242,6 +242,7 @@ export default function ModernChatInterface({
             messages={messages}
             isLoading={isLoading}
             streamingMessage={streamingMessage}
+            currentPersona={selectedPersona}
           />
         ) : (
           <div className="absolute inset-0 flex items-center justify-center pb-32">

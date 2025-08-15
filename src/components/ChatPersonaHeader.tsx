@@ -36,6 +36,8 @@ export default function ChatPersonaHeader({
             <Image
               src={persona.avatar}
               alt={persona.displayName}
+              width={32}
+              height={32}
               className="w-8 h-8 rounded-xl shadow-sm object-cover transition-transform duration-200 hover:scale-110"
             />
             <div>
