@@ -7,15 +7,17 @@ import ModernMessageList from './ModernMessageList';
 import ModernChatInput from './ModernChatInput';
 import { Button } from '@/components/ui/button';
 import { AlertTriangleIcon, XIcon, BotIcon, SparklesIcon, ArrowLeftIcon } from 'lucide-react';
+import SuggestedQuestions from './SuggestedQuestions';
+import FloatingActionButton from './FloatingActionButton';
 
 interface ModernChatInterfaceProps {
   initialPersona?: Persona;
   onBackToHome?: () => void;
 }
 
-export default function ModernChatInterface({ 
+export default function ModernChatInterface({
   initialPersona = 'hitesh',
-  onBackToHome 
+  onBackToHome
 }: ModernChatInterfaceProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [selectedPersona, setSelectedPersona] = useState<Persona>(initialPersona);
@@ -152,10 +154,31 @@ export default function ModernChatInterface({
     setError(null);
   };
 
+  const handleClearChat = () => {
+    setMessages([]);
+    setError(null);
+    setStreamingMessage('');
+  };
+
+  const handleSaveChat = () => {
+    // TODO: Implement save functionality
+    console.log('Save chat functionality to be implemented');
+  };
+
+  const handleShareChat = () => {
+    // TODO: Implement share functionality
+    console.log('Share chat functionality to be implemented');
+  };
+
+  const handleShowHelp = () => {
+    // TODO: Implement help functionality
+    console.log('Help functionality to be implemented');
+  };
+
   return (
-    <div className="flex flex-col h-screen bg-background">
+    <div className="flex flex-col h-screen bg-background animate-fadeIn">
       {/* Header */}
-      <div className="border-b border-border bg-card/30 backdrop-blur-sm">
+      <div className="border-b border-border bg-card/30 backdrop-blur-sm animate-fadeInDown">
         <div className="max-w-3xl mx-auto px-6 py-4">
           <div className="flex items-center gap-3">
             {onBackToHome && (
@@ -213,19 +236,43 @@ export default function ModernChatInterface({
       )}
 
       {/* Messages */}
-      <ModernMessageList
-        messages={messages}
-        isLoading={isLoading}
-        streamingMessage={streamingMessage}
-      />
+      <div className="flex-1 overflow-y-auto relative">
+        {messages.length > 0 || isLoading ? (
+          <ModernMessageList
+            messages={messages}
+            isLoading={isLoading}
+            streamingMessage={streamingMessage}
+          />
+        ) : (
+          <div className="absolute inset-0 flex items-center justify-center pb-32">
+            <SuggestedQuestions
+              persona={selectedPersona}
+              onQuestionClick={handleSendMessage}
+              isVisible={true}
+            />
+          </div>
+        )}
+      </div>
 
       {/* Input */}
-      <ModernChatInput
-        onSendMessage={handleSendMessage}
-        isLoading={isLoading}
-        onStop={handleStop}
-        placeholder={`Ask ${selectedPersona === 'hitesh' ? 'Hitesh' : 'Piyush'} your coding question in ${selectedLanguage}...`}
-      />
+      <div className="animate-fadeInUp">
+        <ModernChatInput
+          onSendMessage={handleSendMessage}
+          isLoading={isLoading}
+          onStop={handleStop}
+          placeholder={`Ask ${selectedPersona === 'hitesh' ? 'Hitesh' : 'Piyush'} your coding question in ${selectedLanguage}...`}
+        />
+      </div>
+
+      {/* Floating Action Button */}
+      {messages.length > 0 && (
+        <FloatingActionButton
+          onClearChat={handleClearChat}
+          onSaveChat={handleSaveChat}
+          onShareChat={handleShareChat}
+          onShowHelp={handleShowHelp}
+        />
+      )}
     </div>
   );
 }

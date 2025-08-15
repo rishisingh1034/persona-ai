@@ -48,14 +48,14 @@ export default function ModernChatInput({
   };
 
   return (
-    <div className="border-t border-border bg-card/50 backdrop-blur-sm">
+    <div className="border-t border-border bg-card/50 backdrop-blur-sm transition-all duration-300">
       <div className="max-w-3xl mx-auto p-4">
-        <div className="flex gap-3 items-end">
+        <div className="flex gap-3 items-end animate-slideInLeft">
           {/* Attachment Button */}
           <Button
             variant="ghost"
             size="icon"
-            className="flex-shrink-0 h-10 w-10 rounded-full hover:bg-accent"
+            className="flex-shrink-0 h-10 w-10 rounded-full hover:bg-accent transition-all duration-200 hover:scale-110 animate-bounceIn"
             title="Attach file (coming soon)"
           >
             <PlusIcon className="w-4 h-4" />
@@ -74,9 +74,11 @@ export default function ModernChatInput({
                 disabled={isLoading}
                 className={cn(
                   "pr-20 min-h-[48px] text-sm bg-background border-border rounded-2xl",
-                  "focus:ring-2 focus:ring-primary focus:border-transparent",
-                  "placeholder:text-muted-foreground",
-                  isLoading && "opacity-50"
+                  "focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200",
+                  "placeholder:text-muted-foreground hover:border-primary/50",
+                  "focus:shadow-lg focus:shadow-primary/20",
+                  isLoading && "opacity-50",
+                  message.trim() && "animate-pulseGlow"
                 )}
                 maxLength={1000}
               />
@@ -86,7 +88,7 @@ export default function ModernChatInput({
                 variant="ghost"
                 size="icon"
                 onClick={handleVoiceInput}
-                className="absolute right-12 h-8 w-8 rounded-full hover:bg-accent"
+                className="absolute right-12 h-8 w-8 rounded-full hover:bg-accent transition-all duration-200 hover:scale-110"
                 title="Voice input (coming soon)"
                 disabled={isLoading}
               >
@@ -99,7 +101,7 @@ export default function ModernChatInput({
                   variant="ghost"
                   size="icon"
                   onClick={handleStop}
-                  className="absolute right-2 h-8 w-8 rounded-full hover:bg-destructive/10 hover:text-destructive"
+                  className="absolute right-2 h-8 w-8 rounded-full hover:bg-destructive/10 hover:text-destructive transition-all duration-200 hover:scale-110 animate-pulse"
                   title="Stop generation"
                 >
                   <StopCircleIcon className="w-4 h-4" />
@@ -110,9 +112,9 @@ export default function ModernChatInput({
                   disabled={!message.trim()}
                   size="icon"
                   className={cn(
-                    "absolute right-2 h-8 w-8 rounded-full transition-all duration-200",
+                    "absolute right-2 h-8 w-8 rounded-full transition-all duration-300",
                     message.trim() 
-                      ? "bg-primary hover:bg-primary/90 text-primary-foreground shadow-sm" 
+                      ? "bg-primary hover:bg-primary/90 text-primary-foreground shadow-sm hover:scale-110 animate-bounceIn" 
                       : "bg-muted text-muted-foreground cursor-not-allowed"
                   )}
                   title="Send message"

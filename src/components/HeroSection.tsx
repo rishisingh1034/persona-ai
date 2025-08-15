@@ -26,18 +26,18 @@ interface HeroSectionProps {
 
 export default function HeroSection({ onSelectPersona }: HeroSectionProps) {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20 animate-fadeIn">
       {/* Header */}
-      <div className="border-b border-border bg-card/30 backdrop-blur-sm">
+      <div className="border-b border-border bg-card/30 backdrop-blur-sm animate-fadeInDown">
         <div className="max-w-6xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
+            <div className="flex items-center gap-3 animate-slideInLeft">
+              <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg animate-bounceIn hover:scale-110 transition-transform duration-200">
                 <BotIcon className="w-5 h-5 text-white" />
               </div>
               <div>
                 <h1 className="text-xl font-bold text-foreground flex items-center gap-2">
-                  AI Coding Mentors
+                  AI Coding Mentors Persona
                   <SparklesIcon className="w-4 h-4 text-primary" />
                 </h1>
                 <p className="text-sm text-muted-foreground">
@@ -188,7 +188,7 @@ export default function HeroSection({ onSelectPersona }: HeroSectionProps) {
                   className="w-full group-hover:shadow-lg transition-all duration-300"
                   size="default"
                 >
-                  <span>Start Learning with {persona.displayName}</span>
+                  <span>Start Talking with {persona.displayName}</span>
                   <ArrowRightIcon className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </div>

@@ -9,6 +9,7 @@ import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { ClipboardIcon, CheckIcon, UserIcon, BotIcon } from 'lucide-react';
 import { useState } from 'react';
 import { Conversation, ConversationContent, ConversationScrollButton } from '@/components/ai-elements/conversation';
+import TypingIndicator from './TypingIndicator';
 
 interface ModernMessageListProps {
   messages: Message[];
@@ -83,20 +84,20 @@ function MessageBubble({ message, isStreaming = false, streamingContent = '' }: 
 
   return (
     <div className={cn(
-      "flex gap-3 mb-6",
+      "flex gap-3 mb-6 animate-fadeInUp",
       isUser ? "justify-end" : "justify-start"
     )}>
       {/* Avatar */}
       {!isUser && (
-        <div className="flex-shrink-0">
+        <div className="flex-shrink-0 animate-bounceIn">
           {persona?.avatar ? (
             <img 
               src={persona.avatar} 
               alt={persona.displayName || 'AI'}
-              className="w-8 h-8 rounded-full shadow-sm object-cover flex-shrink-0"
+              className="w-8 h-8 rounded-full shadow-sm object-cover flex-shrink-0 transition-transform duration-200 hover:scale-110"
             />
           ) : (
-            <div className="w-8 h-8 rounded-full flex items-center justify-center bg-gray-500 text-white text-sm font-bold shadow-sm flex-shrink-0">
+            <div className="w-8 h-8 rounded-full flex items-center justify-center bg-gray-500 text-white text-sm font-bold shadow-sm flex-shrink-0 transition-transform duration-200 hover:scale-110">
               <BotIcon className="w-4 h-4" />
             </div>
           )}
@@ -105,16 +106,16 @@ function MessageBubble({ message, isStreaming = false, streamingContent = '' }: 
 
       {/* Message Content */}
       <div className={cn(
-        "max-w-[80%] rounded-2xl px-4 py-3 shadow-sm",
+        "max-w-[80%] rounded-2xl px-4 py-3 shadow-sm transition-all duration-300 hover:shadow-md",
         isUser 
-          ? "bg-primary text-primary-foreground ml-12" 
-          : "bg-card text-card-foreground border border-border"
+          ? "bg-primary text-primary-foreground ml-12 animate-slideInRight" 
+          : "bg-card text-card-foreground border border-border animate-slideInLeft hover:border-primary/20"
       )}>
         {/* Persona Name */}
         {!isUser && persona && (
-          <div className="text-xs font-medium text-muted-foreground mb-2 flex items-center gap-1">
+          <div className="text-xs font-medium text-muted-foreground mb-2 flex items-center gap-1 animate-fadeIn">
             {persona.displayName}
-            <span className="w-1 h-1 bg-green-500 rounded-full"></span>
+            <span className="w-1 h-1 bg-green-500 rounded-full animate-pulse"></span>
           </div>
         )}
         
@@ -187,7 +188,7 @@ export default function ModernMessageList({
 }: ModernMessageListProps) {
   return (
     <Conversation className="flex-1">
-      <ConversationContent className="max-w-3xl mx-auto">
+      <ConversationContent className="max-w-3xl mx-auto pt-4">
         {/* Welcome Message */}
         {messages.length === 0 && !isLoading && (
           <div className="flex flex-col items-center justify-center h-full text-center py-12">
@@ -226,21 +227,15 @@ export default function ModernMessageList({
 
         {/* Loading Indicator */}
         {isLoading && !streamingMessage && (
-          <div className="flex gap-3 justify-start mb-6">
-            <div className="flex-shrink-0">
+          <div className="flex gap-3 justify-start mb-6 animate-fadeInUp">
+            <div className="flex-shrink-0 animate-bounceIn">
               <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center animate-pulse">
                 <BotIcon className="w-4 h-4 text-muted-foreground" />
               </div>
             </div>
-            <div className="bg-card border border-border rounded-2xl px-4 py-3 shadow-sm">
-              <div className="flex items-center gap-2">
-                <div className="flex space-x-1">
-                  <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce"></div>
-                  <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                  <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-                </div>
-                <span className="text-sm text-muted-foreground">Thinking...</span>
-              </div>
+            <div className="flex items-center gap-2">
+              <TypingIndicator size="md" />
+              <span className="text-sm text-muted-foreground animate-fadeIn">Thinking...</span>
             </div>
           </div>
         )}
