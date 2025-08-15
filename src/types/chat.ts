@@ -22,11 +22,13 @@ export interface ChatResponse {
   error?: string;
 }
 
+import { StaticImageData } from 'next/image';
+
 export interface PersonaConfig {
   id: Persona;
   name: string;
   displayName: string;
-  avatar: string;
+  avatar: string | StaticImageData;
   description: string;
   systemPrompt: string;
   color: string;

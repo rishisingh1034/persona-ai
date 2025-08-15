@@ -1,7 +1,6 @@
 import { PersonaConfig, Language } from '@/types/chat';
-
-const hitesh = 'https://github.com/hiteshchoudhary.png';
-const piyush = 'https://github.com/piyushgarg-dev.png';
+import hitesh from '../../public/hitesh.png';
+import piyush from '../../public/piyush.png';
 
 export const personas: Record<string, PersonaConfig> = {
   // hitesh: {
