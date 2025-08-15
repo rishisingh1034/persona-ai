@@ -6,6 +6,7 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { GlobeIcon } from 'lucide-react';
+import Image from 'next/image';
 
 interface ChatPersonaHeaderProps {
   selectedPersona: Persona;
@@ -32,8 +33,8 @@ export default function ChatPersonaHeader({
         <div className="flex items-center justify-between animate-slideInLeft">
           {/* Selected Persona Display - Compact */}
           <div className="flex items-center gap-3 animate-bounceIn">
-            <img 
-              src={persona.avatar} 
+            <Image
+              src={persona.avatar}
               alt={persona.displayName}
               className="w-8 h-8 rounded-xl shadow-sm object-cover transition-transform duration-200 hover:scale-110"
             />

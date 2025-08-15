@@ -19,6 +19,7 @@ import {
   LinkedinIcon,
   TwitterIcon
 } from 'lucide-react';
+import Image from 'next/image';
 
 interface HeroSectionProps {
   onSelectPersona: (persona: Persona) => void;
@@ -41,7 +42,7 @@ export default function HeroSection({ onSelectPersona }: HeroSectionProps) {
                   <SparklesIcon className="w-4 h-4 text-primary" />
                 </h1>
                 <p className="text-sm text-muted-foreground">
-                  Learn coding with India's top educators
+                  Learn coding with India&apos;s top educators
                 </p>
               </div>
             </div>
@@ -138,7 +139,7 @@ export default function HeroSection({ onSelectPersona }: HeroSectionProps) {
                 {/* Header */}
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-3">
-                    <img
+                    <Image
                       src={persona.avatar}
                       alt={persona.name}
                       className="w-12 h-12 rounded-xl shadow-lg group-hover:scale-110 transition-transform object-cover"

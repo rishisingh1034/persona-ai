@@ -20,7 +20,7 @@ export default function ModernChatInterface({
   onBackToHome
 }: ModernChatInterfaceProps) {
   const [messages, setMessages] = useState<Message[]>([]);
-  const [selectedPersona, setSelectedPersona] = useState<Persona>(initialPersona);
+  const [selectedPersona, _setSelectedPersona] = useState<Persona>(initialPersona);
   const [selectedLanguage, setSelectedLanguage] = useState<Language>('hinglish');
   const [isLoading, setIsLoading] = useState(false);
   const [streamingMessage, setStreamingMessage] = useState('');
@@ -109,17 +109,17 @@ export default function ModernChatInterface({
       setMessages(prev => [...prev, assistantMessage]);
       setStreamingMessage('');
 
-    } catch (error: any) {
-      if (error.name === 'AbortError') {
+    } catch (error: unknown | Error) {
+      if (error instanceof Error && error.name === 'AbortError') {
         return;
       }
 
       console.error('Chat error:', error);
-      setError(error.message || 'An unexpected error occurred');
+      setError(error instanceof Error ? error.message : 'An unexpected error occurred');
 
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
-        content: `Sorry, mujhe samajh nahi aaya – ${error.message}. Please try again!`,
+        content: `Sorry, mujhe samajh nahi aaya – ${error instanceof Error ? error.message : 'An unexpected error occurred'}. Please try again!`,
         role: 'assistant',
         timestamp: new Date(),
         persona: selectedPersona,

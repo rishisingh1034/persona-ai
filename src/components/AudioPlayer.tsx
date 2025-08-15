@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef } from 'react';
-import { PlayIcon, PauseIcon, SpeakerWaveIcon } from '@heroicons/react/24/outline';
+import { PauseIcon, SpeakerWaveIcon } from '@heroicons/react/24/outline';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
@@ -24,19 +24,19 @@ export default function AudioPlayer({ text, persona, className }: AudioPlayerPro
     }
 
     setIsLoading(true);
-    
+
     try {
       // Placeholder for TTS API integration
       // In a real implementation, you would:
       // 1. Send text to TTS service (ElevenLabs, Azure, etc.)
       // 2. Get audio URL/blob back
       // 3. Play the audio
-      
+
       console.log(`TTS requested for ${persona}:`, text);
-      
+
       // For now, show a message that TTS is not implemented
       alert('Text-to-Speech feature is not implemented yet. This is a placeholder for future TTS integration with services like ElevenLabs or Azure Speech.');
-      
+
     } catch (error) {
       console.error('TTS Error:', error);
     } finally {
@@ -62,7 +62,7 @@ export default function AudioPlayer({ text, persona, className }: AudioPlayerPro
           <SpeakerWaveIcon className="w-4 h-4" />
         )}
       </Button>
-      
+
       <audio
         ref={audioRef}
         onPlay={() => setIsPlaying(true)}

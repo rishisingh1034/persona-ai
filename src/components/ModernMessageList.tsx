@@ -91,8 +91,8 @@ function MessageBubble({ message, isStreaming = false, streamingContent = '' }: 
       {!isUser && (
         <div className="flex-shrink-0 animate-bounceIn">
           {persona?.avatar ? (
-            <img 
-              src={persona.avatar} 
+            <img
+              src={persona.avatar}
               alt={persona.displayName || 'AI'}
               className="w-8 h-8 rounded-full shadow-sm object-cover flex-shrink-0 transition-transform duration-200 hover:scale-110"
             />
@@ -107,8 +107,8 @@ function MessageBubble({ message, isStreaming = false, streamingContent = '' }: 
       {/* Message Content */}
       <div className={cn(
         "max-w-[80%] rounded-2xl px-4 py-3 shadow-sm transition-all duration-300 hover:shadow-md",
-        isUser 
-          ? "bg-primary text-primary-foreground ml-12 animate-slideInRight" 
+        isUser
+          ? "bg-primary text-primary-foreground ml-12 animate-slideInRight"
           : "bg-card text-card-foreground border border-border animate-slideInLeft hover:border-primary/20"
       )}>
         {/* Persona Name */}
@@ -118,7 +118,7 @@ function MessageBubble({ message, isStreaming = false, streamingContent = '' }: 
             <span className="w-1 h-1 bg-green-500 rounded-full animate-pulse"></span>
           </div>
         )}
-        
+
         {/* Message Text */}
         <div className="prose prose-sm max-w-none dark:prose-invert">
           <ReactMarkdown
@@ -156,15 +156,15 @@ function MessageBubble({ message, isStreaming = false, streamingContent = '' }: 
             {isStreaming ? streamingContent : message.content}
           </ReactMarkdown>
         </div>
-        
+
         {/* Timestamp */}
         <div className={cn(
           "text-xs mt-2 opacity-70",
           isUser ? "text-primary-foreground" : "text-muted-foreground"
         )}>
-          {message.timestamp.toLocaleTimeString([], { 
-            hour: '2-digit', 
-            minute: '2-digit' 
+          {message.timestamp.toLocaleTimeString([], {
+            hour: '2-digit',
+            minute: '2-digit'
           })}
         </div>
       </div>
@@ -212,7 +212,7 @@ export default function ModernMessageList({
 
         {/* Streaming Message */}
         {isLoading && streamingMessage && messages.length > 0 && (
-          <MessageBubble 
+          <MessageBubble
             message={{
               id: 'streaming',
               content: streamingMessage,
