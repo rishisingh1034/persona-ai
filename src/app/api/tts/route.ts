@@ -2,13 +2,21 @@ import { NextRequest, NextResponse } from 'next/server';
 import { writeFile, readFile } from 'fs/promises';
 import { join } from 'path';
 import { existsSync, mkdirSync } from 'fs';
-import { ElevenLabsClient } from '@elevenlabs/elevenlabs-js';
+import { tmpdir } from 'os';
 import crypto from 'crypto';
 
-// Initialize ElevenLabs client
-const elevenlabs = new ElevenLabsClient({
-  apiKey: process.env.ELEVENLABS_API_KEY
-});
+// Dynamic ElevenLabs client initialization
+let elevenlabs: any = null;
+
+async function getElevenLabsClient() {
+  if (!elevenlabs) {
+    const { ElevenLabsClient } = await import('@elevenlabs/elevenlabs-js');
+    elevenlabs = new ElevenLabsClient({
+      apiKey: process.env.ELEVENLABS_API_KEY
+    });
+  }
+  return elevenlabs;
+}
 
 // Voice configuration for different personas
 const VOICE_CONFIG = {
@@ -43,6 +51,10 @@ function generateAudioFilename(text: string, persona: string): string {
 
 // Function to check if audio file already exists
 function audioFileExists(filename: string): boolean {
+  // In serverless environments, we can't persist files, so always return false
+  if (process.env.VERCEL || process.env.NETLIFY || process.env.AWS_LAMBDA_FUNCTION_NAME) {
+    return false;
+  }
   const filePath = join(process.cwd(), 'public', 'generated-audio', filename);
   return existsSync(filePath);
 }
@@ -61,15 +73,18 @@ async function generateSpeech(text: string, persona: string): Promise<string> {
   try {
     console.log(`Generating speech for ${persona} with voice ID: ${config.voiceId}`);
     
+    // Get ElevenLabs client
+    const client = await getElevenLabsClient();
+    
     // Generate audio using ElevenLabs
-    const audio = await elevenlabs.textToSpeech.convert(config.voiceId, {
+    const audio = await client.textToSpeech.convert(config.voiceId, {
       text: text,
-      modelId: MODEL_ID,
-      voiceSettings: {
+      model_id: MODEL_ID,
+      voice_settings: {
         stability: config.settings.stability,
-        similarityBoost: config.settings.similarityBoost,
+        similarity_boost: config.settings.similarityBoost,
         style: config.settings.style,
-        useSpeakerBoost: config.settings.useSpeakerBoost
+        use_speaker_boost: config.settings.useSpeakerBoost
       }
     });
 
@@ -95,7 +110,17 @@ async function generateSpeech(text: string, persona: string): Promise<string> {
       offset += chunk.length;
     }
 
-    // Ensure the generated-audio directory exists
+    // For serverless environments, return the audio directly without saving to file
+    if (process.env.VERCEL || process.env.NETLIFY || process.env.AWS_LAMBDA_FUNCTION_NAME) {
+      // Convert audio buffer to base64 data URL
+      const base64Audio = Buffer.from(audioBuffer).toString('base64');
+      const dataUrl = `data:audio/mpeg;base64,${base64Audio}`;
+      
+      console.log(`Audio generated successfully for serverless: ${filename}`);
+      return dataUrl;
+    }
+
+    // For local development, save to file as before
     const audioDir = join(process.cwd(), 'public', 'generated-audio');
     if (!existsSync(audioDir)) {
       mkdirSync(audioDir, { recursive: true });

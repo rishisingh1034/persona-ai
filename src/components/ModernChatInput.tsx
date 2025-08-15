@@ -54,7 +54,7 @@ export default function ModernChatInput({
   // Handle speaker button click for voice demo
   const handleSpeakerDemo = async () => {
     if (persona === 'hitesh') {
-      const demoMessage = "Hello! I'm Hitesh. Click on any of my responses to hear them in my voice. Let's start coding together!";
+      const demoMessage = "Hello! I'm Hitesh. Ready to learn coding together?";
       await speak(demoMessage, 'hitesh');
     }
   };
