@@ -156,6 +156,17 @@ function MessageBubble({ message, isStreaming = false, streamingContent = '', cu
               h1: ({ children }) => <h1 className="text-lg font-semibold mb-2">{children}</h1>,
               h2: ({ children }) => <h2 className="text-base font-semibold mb-2">{children}</h2>,
               h3: ({ children }) => <h3 className="text-sm font-semibold mb-2">{children}</h3>,
+              a: ({ href, children, ...props }: any) => (
+                <a
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-500 hover:text-blue-600 underline transition-colors duration-200"
+                  {...props}
+                >
+                  {children}
+                </a>
+              ),
             }}
           >
             {isStreaming ? streamingContent : message.content}

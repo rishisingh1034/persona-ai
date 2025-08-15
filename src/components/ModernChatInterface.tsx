@@ -21,7 +21,7 @@ export default function ModernChatInterface({
 }: ModernChatInterfaceProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [selectedPersona, _setSelectedPersona] = useState<Persona>(initialPersona);
-  const [selectedLanguage, setSelectedLanguage] = useState<Language>('hinglish');
+
   const [isLoading, setIsLoading] = useState(false);
   const [streamingMessage, setStreamingMessage] = useState('');
   const [error, setError] = useState<string | null>(null);
@@ -53,7 +53,7 @@ export default function ModernChatInterface({
         body: JSON.stringify({
           message: content,
           persona: selectedPersona,
-          language: selectedLanguage,
+          language: 'hinglish',
           conversationHistory: messages,
         }),
         signal: abortControllerRef.current.signal,
@@ -131,7 +131,7 @@ export default function ModernChatInterface({
       setStreamingMessage('');
       abortControllerRef.current = null;
     }
-  }, [selectedPersona, selectedLanguage, messages, isLoading]);
+  }, [selectedPersona, messages, isLoading]);
 
   const handleStop = useCallback(() => {
     if (abortControllerRef.current) {
@@ -149,10 +149,7 @@ export default function ModernChatInterface({
     };
   }, []);
 
-  const handleLanguageChange = (language: Language) => {
-    setSelectedLanguage(language);
-    setError(null);
-  };
+
 
   const handleClearChat = () => {
     setMessages([]);
@@ -211,8 +208,6 @@ export default function ModernChatInterface({
       {/* Persona Header */}
       <ChatPersonaHeader
         selectedPersona={selectedPersona}
-        selectedLanguage={selectedLanguage}
-        onLanguageChange={handleLanguageChange}
       />
 
       {/* Error Banner */}
@@ -261,7 +256,7 @@ export default function ModernChatInterface({
           onSendMessage={handleSendMessage}
           isLoading={isLoading}
           onStop={handleStop}
-          placeholder={`Ask ${selectedPersona === 'hitesh' ? 'Hitesh' : 'Piyush'} your coding question in ${selectedLanguage}...`}
+          placeholder={`Ask ${selectedPersona === 'hitesh' ? 'Hitesh' : 'Piyush'} your coding question...`}
         />
       </div>
 
