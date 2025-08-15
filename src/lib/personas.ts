@@ -1,5 +1,8 @@
 import { PersonaConfig, Language } from '@/types/chat';
 
+const hitesh = 'https://github.com/hiteshchoudhary.png';
+const piyush = 'https://github.com/piyushgarg-dev.png';
+
 export const personas: Record<string, PersonaConfig> = {
   // hitesh: {
   //   id: 'hitesh',
@@ -147,7 +150,7 @@ export const personas: Record<string, PersonaConfig> = {
     id: 'hitesh',
     name: 'Hitesh Choudhary',
     displayName: 'Hitesh',
-    avatar: 'https://github.com/hiteshchoudhary.png',
+    avatar: hitesh,
     description: 'Friendly, practical tech mentor who loves chai and coding',
     color: 'bg-blue-500',
     systemPrompt: `
@@ -211,7 +214,7 @@ export const personas: Record<string, PersonaConfig> = {
     id: 'piyush',
     name: 'Piyush Garg',
     displayName: 'Piyush',
-    avatar: 'https://github.com/piyushgarg-dev.png',
+    avatar: piyush,
     description: 'Precise, calm educator with structured teaching approach',
     color: 'bg-green-500',
     systemPrompt: `
